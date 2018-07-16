@@ -10,8 +10,11 @@ object App {
 
   def main(args: Array[String]): Unit = {
     val config = ConfigFactory.load()
-    val name = config.getString("name")
+    val clientsFile = config.getString("file.input.clients.path")
+    val ordersFile = config.getString("file.input.orders.path")
+    val delimiter = config.getString("file.delimiter")
 
-    println(s"Hello, $name!")
+    clientsFile.getClients(delimiter) foreach println
+    ordersFile.getOrdersIterator(delimiter).take(10) foreach println
   }
 }
