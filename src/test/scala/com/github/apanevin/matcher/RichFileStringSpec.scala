@@ -13,14 +13,13 @@ class RichFileStringSpec  extends FlatSpec with Matchers {
     val clients = clientFile.getClients("\t")
 
     clients.size should equal(3)
-    clients("C1").balance should equal(1000)
+    clients.head.balance should equal(1000)
   }
 
   it should "filter invalid client's rows" in {
     val clients = invalidClientFile.getClients("\t")
 
     clients.size should equal(2)
-    clients.get("C3") should be(None)
   }
 
   it should "read orders file" in {

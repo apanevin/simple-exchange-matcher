@@ -9,7 +9,50 @@ package com.github.apanevin.matcher.model
   */
 case class Client(name: String,
                   balance: Long,
-                  securities: Map[Security, Int])
+                  securities: Map[Security, Int]) {
+  /**
+    * Creates new [[Client]] with sold security processed
+    *
+    * @param security [[Security]] paper identifier
+    * @param price Price for one security
+    * @param amount Amount of securities which should be sold
+    * @return new [[Client]] object due to immutable approach
+    */
+  def sell(security: Security, price: Long, amount: Int) = {
+    val total = price * amount
+    new Client(this.name, this.balance + total, this.securities + (security -> (securities(security) - amount)))
+  }
+
+  /**
+    * Creates new [[Client]] with bought security processed
+    *
+    * @param security [[Security]] paper identifier
+    * @param price Price for one security
+    * @param amount Amount of securities which should be bought
+    * @return new [[Client]] object due to immutable approach
+    */
+  def buy(security: Security, price: Long, amount: Int) = {
+    val total = price * amount
+    new Client(this.name, this.balance - total, this.securities + (security -> (securities(security) + amount)))
+  }
+
+  /**
+    * Builds a string from [[Client]] object
+    * @param sep Fields separator
+    * @return String with all client's fields, separated with parametrized symbol
+    */
+  def mkString(sep: String): String = {
+    val builder = StringBuilder.newBuilder
+    builder.append(name).append(sep)
+    builder.append(balance).append(sep)
+    builder.append(securities(A)).append(sep)
+    builder.append(securities(B)).append(sep)
+    builder.append(securities(C)).append(sep)
+    builder.append(securities(D)).append("\n")
+
+    builder.toString()
+  }
+}
 
 object Client {
   def apply(name: String,

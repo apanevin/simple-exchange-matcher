@@ -1,5 +1,8 @@
 package com.github.apanevin.matcher
 
+import java.io.{File, PrintWriter}
+
+import com.github.apanevin.matcher.service.ExchangeMatcher
 import com.typesafe.config.ConfigFactory
 
 /**
@@ -12,9 +15,18 @@ object App {
     val config = ConfigFactory.load()
     val clientsFile = config.getString("file.input.clients.path")
     val ordersFile = config.getString("file.input.orders.path")
+    val outputFileName = config.getString("file.output.clients.name")
     val delimiter = config.getString("file.delimiter")
 
-    clientsFile.getClients(delimiter) foreach println
-    ordersFile.getOrdersIterator(delimiter).take(10) foreach println
+    val clients = clientsFile.getClients(delimiter)
+    val orders = ordersFile.getOrdersIterator(delimiter)
+
+    val processed = ExchangeMatcher.process(clients, orders)
+
+    val writer = new PrintWriter(new File(outputFileName))
+    for (client <- processed) {
+      writer.write(client.mkString(delimiter))
+    }
+    writer.close()
   }
 }

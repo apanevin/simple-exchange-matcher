@@ -15,12 +15,12 @@ package object matcher {
       * Reads and filters [[fileString]] client file
       *
       * @param delimiter Row's delimiter
-      * @return Map with all filtered (name -> [[Client]]) pairs
+      * @return List with all filtered clients
       */
-    def getClients(delimiter: String): Map[String, Client] = {
+    def getClients(delimiter: String): List[Client] = {
       getLines.flatMap(row => row.split(delimiter) match {
         case Array(name, balance, securityAAmount, securityBAmount, securityCAmount, securityDAmount) =>
-          Some(name -> Client(name,
+          Some(Client(name,
             balance.toLong,
             securityAAmount.toInt,
             securityBAmount.toInt,
@@ -29,7 +29,7 @@ package object matcher {
         case _ =>
           println(s"Invalid client row: $row") // todo: add logger
           None
-      }).toMap
+      }).toList
     }
 
     /**
