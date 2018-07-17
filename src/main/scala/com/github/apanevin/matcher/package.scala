@@ -1,13 +1,14 @@
 package com.github.apanevin
 
 import com.github.apanevin.matcher.model.{Client, Order, OrderType, Security}
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.io.Source
 
 /**
   * Provides an implicit class [[com.github.apanevin.matcher.RichFileString]] for manipulating with files
   */
-package object matcher {
+package object matcher extends StrictLogging {
 
   implicit class RichFileString(fileString: String) {
 
@@ -27,7 +28,7 @@ package object matcher {
             securityCAmount.toInt,
             securityDAmount.toInt))
         case _ =>
-          println(s"Invalid client row: $row") // todo: add logger
+          logger.warn(s"Invalid client row: $row")
           None
       }).toList
     }
@@ -47,7 +48,7 @@ package object matcher {
             price.toLong,
             amount.toInt))
         case _ =>
-          println(s"Invalid order row: $row") // todo: add logger
+          logger.warn(s"Invalid order row: $row")
           None
       })
     }

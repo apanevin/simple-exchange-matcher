@@ -8,6 +8,8 @@
     <scala.version>2.12.4</scala.version>
     <scala.compat.version>2.12</scala.compat.version>
     <config.version>1.3.3</config.version>
+    <logback.version>1.2.3</logback.version>
+    <logging.version>3.9.0</logging.version>
     <scalatest.version>3.0.5</scalatest.version>
   </properties>
 
@@ -37,6 +39,16 @@
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
       <version>${config.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.typesafe.scala-logging</groupId>
+      <artifactId>scala-logging_${scala.compat.version}</artifactId>
+      <version>${logging.version}</version>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>

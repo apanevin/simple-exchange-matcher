@@ -4,14 +4,16 @@ import java.io.{File, PrintWriter}
 
 import com.github.apanevin.matcher.service.ExchangeMatcher
 import com.typesafe.config.ConfigFactory
+import com.typesafe.scalalogging.StrictLogging
 
 /**
  * Entry point for the whole project
  *
  */
-object App {
+object App extends StrictLogging {
 
   def main(args: Array[String]): Unit = {
+    logger.info("Exchange matcher has been started")
     val config = ConfigFactory.load()
     val clientsFile = config.getString("file.input.clients.path")
     val ordersFile = config.getString("file.input.orders.path")
@@ -28,5 +30,6 @@ object App {
       writer.write(client.mkString(delimiter))
     }
     writer.close()
+    logger.info("Exchange matcher has successfully processed all orders")
   }
 }

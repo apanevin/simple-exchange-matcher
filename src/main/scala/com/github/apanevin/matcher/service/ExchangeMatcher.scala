@@ -2,11 +2,12 @@ package com.github.apanevin.matcher.service
 
 import com.github.apanevin.matcher.model._
 import com.github.apanevin.matcher.util.ListedMap
+import com.typesafe.scalalogging.StrictLogging
 
 /**
   * Represents exchange mechanism between two clients
   */
-object ExchangeMatcher {
+object ExchangeMatcher extends StrictLogging {
 
   type Exchange = (Option[Client], Option[Client])
 
@@ -19,6 +20,7 @@ object ExchangeMatcher {
     */
   def process(clients: List[Client],
               orders: Iterator[Order]): List[Client] = {
+    logger.info(s"Started processing ${orders.size} orders for ${clients.size} clients")
     var sellMap = new ListedMap[(Security, Long, Int), String]
     var buyMap = new ListedMap[(Security, Long, Int), String]
     var processed = clients.map(client => (client.name, client)).toMap
