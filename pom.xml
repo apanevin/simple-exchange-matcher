@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.apanevin</groupId>
   <artifactId>simple-exchange-matcher</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <properties>
     <scala.version>2.12.4</scala.version>
