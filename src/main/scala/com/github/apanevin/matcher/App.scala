@@ -19,15 +19,18 @@ object App extends StrictLogging {
     val ordersFile = config.getString("file.input.orders.path")
     val outputFileName = config.getString("file.output.clients.name")
     val delimiter = config.getString("file.delimiter")
+    val matcherClass = config.getString("exchange.matcher.class")
 
     val clients = clientsFile.getClients(delimiter)
     val orders = ordersFile.getOrdersIterator(delimiter)
 
-    val processed = ExchangeMatcher.process(clients, orders)
+    val matcher = Class.forName(matcherClass).newInstance.asInstanceOf[ExchangeMatcher]
+    val processed = matcher.process(clients, orders)
 
     val writer = new PrintWriter(new File(outputFileName))
     for (client <- processed) {
       writer.write(client.mkString(delimiter))
+      writer.write("\n")
     }
     writer.close()
     logger.info("Exchange matcher has successfully processed all orders")

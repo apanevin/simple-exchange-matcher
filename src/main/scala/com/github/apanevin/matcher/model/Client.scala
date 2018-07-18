@@ -48,7 +48,7 @@ case class Client(name: String,
     builder.append(securities(A)).append(sep)
     builder.append(securities(B)).append(sep)
     builder.append(securities(C)).append(sep)
-    builder.append(securities(D)).append("\n")
+    builder.append(securities(D))
 
     builder.toString()
   }
