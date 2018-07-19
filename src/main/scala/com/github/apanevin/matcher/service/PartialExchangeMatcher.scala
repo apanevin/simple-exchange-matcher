@@ -30,8 +30,8 @@ class PartialExchangeMatcher extends ExchangeMatcher {
         case Sell =>
           (1 to order.amount) foreach { _ =>
             if (buyMap.contains(key) && buyMap.get(key).get != order.client) {
-              for (buyClient <- Some(processed(buyMap.pull(key).get));
-                   sellClient <- Some(processed(order.client))) {
+              for (buyClient <- processed.get(buyMap.pull(key).get);
+                   sellClient <- processed.get(order.client)) {
                 processed = processed + (buyClient.name -> buyClient.buy(order.security, order.price, 1))
                 processed = processed + (sellClient.name -> sellClient.sell(order.security, order.price, 1))
               }
@@ -42,8 +42,8 @@ class PartialExchangeMatcher extends ExchangeMatcher {
         case Buy =>
           (1 to order.amount) foreach { _ =>
             if (sellMap.contains(key) && sellMap.get(key).get != order.client) {
-              for (buyClient <- Some(processed(order.client));
-                   sellClient <- Some(processed(sellMap.pull(key).get))) {
+              for (buyClient <- processed.get(order.client);
+                   sellClient <- processed.get(sellMap.pull(key).get)) {
                 processed = processed + (buyClient.name -> buyClient.buy(order.security, order.price, 1))
                 processed = processed + (sellClient.name -> sellClient.sell(order.security, order.price, 1))
               }

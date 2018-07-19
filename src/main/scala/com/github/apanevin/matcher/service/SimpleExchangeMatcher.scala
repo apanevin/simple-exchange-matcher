@@ -30,13 +30,13 @@ class SimpleExchangeMatcher extends ExchangeMatcher {
       order.`type` match {
         case Sell =>
           if (buyMap.contains(key) && buyMap.get(key).get != order.client) {
-            exchangeClients = Exchange(Some(processed(buyMap.pull(key).get)), Some(processed(order.client)))
+            exchangeClients = Exchange(processed.get(buyMap.pull(key).get), processed.get(order.client))
           } else {
             sellMap += key -> order.client
           }
         case Buy =>
           if (sellMap.contains(key) && sellMap.get(key).get != order.client) {
-            exchangeClients = Exchange(Some(processed(order.client)), Some(processed(sellMap.pull(key).get)))
+            exchangeClients = Exchange(processed.get(order.client), processed.get(sellMap.pull(key).get))
           } else {
             buyMap += key -> order.client
           }
